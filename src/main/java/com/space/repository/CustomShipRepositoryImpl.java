@@ -5,8 +5,6 @@ import com.space.model.Ship;
 import com.space.model.ShipType;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -50,8 +48,6 @@ public class CustomShipRepositoryImpl implements CustomShipRepository {
         private final Integer pageNumber;
         private final Integer pageSize;
 
-        private final SimpleDateFormat dateFormatForInit = new SimpleDateFormat("yyyy-01-01");
-
         private String query;
 
         public ShipQueryParameters(Long id,
@@ -77,28 +73,17 @@ public class CustomShipRepositoryImpl implements CustomShipRepository {
             this.shipType = shipType;
 
             if (after != null) {
-                Date tmpDate = null;
-                try {
-                    tmpDate = dateFormatForInit.parse(dateFormatForInit.format(after));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                this.after = tmpDate;
+                this.after = new Date(after);
             } else {
                 this.after = null;
             }
 
             if (before != null) {
-                Date tmpDate = null;
-                try {
-                    tmpDate = dateFormatForInit.parse(dateFormatForInit.format(before));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                this.before = tmpDate;
+                this.before = new Date(before);
             } else {
                 this.before = null;
             }
+
             this.isUsed = isUsed;
             this.minSpeed = minSpeed;
             this.maxSpeed = maxSpeed;
